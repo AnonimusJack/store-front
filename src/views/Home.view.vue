@@ -1,7 +1,5 @@
 <template>
-  <Category></Category>
-  <SearchBar></SearchBar>
-  <div class="main-items-grid__container">
+  <div class="centered main-items-grid__container">
     <Item
     class="main-items-grid__item"
     v-for="item in items"
@@ -14,17 +12,13 @@
 
 <script>
 // @ is an alias to /src
-import SearchBar from "@/components/SearchBar.component.vue";
-import Category from '@/components/Category.component.vue';
 import Item from '@/components/Item.component.vue';
 import { mapState, mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'Home',
   components: {
-    Item,
-    Category,
-    SearchBar
+    Item
   },
   computed: {
     ...mapState({
@@ -48,15 +42,14 @@ export default {
 
 <style lang="scss" scoped>
 .main-items-grid__container {
-  display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
   padding: 0.2rem;
 }
 
 .main-items-grid__item {
-  flex-basis: 100%;
+  flex-basis: 90%;
   display: flex;
-  justify-items: center;
   align-items: center;
   @media (min-width: 600px) {
     flex-basis: 48%;

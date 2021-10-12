@@ -1,26 +1,30 @@
 <template>
-    <div class="centered">
-        <div class="centered" id="seach-bar__container">
-            <input type="text" name="search" id="search-bar__input" v-model="searchQuery" @keyup="onSearchUpdated" @keydown="onEnterKeyDownSearch">
-            <button class="centered" id="search-bar__search-button" @click="onSearch">
-                <svg class="svg-icon search-icon" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7">
-                    <title id="title">Search Icon</title>
-                    <desc id="desc">A magnifying glass icon.</desc>
-                    <g class="search-path" fill="none" stroke="#848F91">
-                        <path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/>
-                        <circle cx="8" cy="8" r="7"/>
-                    </g>
-                </svg>
-            </button>
-        </div>
-        <div class="centered search-bar__results-container" v-if="showSearchResults">
-            <span 
-            class="search-result" 
-            v-for="item in searchResults" 
-            v-bind:key="item.id"
-            @click="onSearchItemClick(item.title)">
-                    {{ item.title }}
-            </span>
+    <div class="centered" id="search-bar__header-container">
+        <div class="centered" id="search-bar__placeholder">
+            <div class="centered" id="seach-bar__container">
+                <div class="centered" id="search-bar__input-container">
+                    <input 
+                    type="text" 
+                    name="search" 
+                    id="search-bar__input"
+                    placeholder="חפשו.." 
+                    v-model="searchQuery" 
+                    @keyup="onSearchUpdated" 
+                    @keydown="onEnterKeyDownSearch">
+                    <button class="centered" id="search-bar__search-button" @click="onSearch">
+                        <Icon icon="search"></Icon>
+                    </button>
+                </div>
+                <div class="centered search-bar__results-container" v-if="showSearchResults">
+                    <span 
+                    class="search-result" 
+                    v-for="item in searchResults" 
+                    v-bind:key="item.id"
+                    @click="onSearchItemClick(item.title)">
+                            {{ item.title }}
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -58,7 +62,6 @@ export default {
         onSearchUpdated(e) {
             if (e.keyCode === 8 || e.keyCode === 27)
             {
-                console.log('Closing?');
                 this.closeSearchResults();
             }
             else if (this.searchQuery != null && this.searchQuery.length > 2 && e.keyCode !== 13)
@@ -71,6 +74,7 @@ export default {
         onSearchItemClick(title) {
             this.searchQuery = title;
             this.closeSearchResults();
+            this.onSearch();
         },
         closeSearchResults() {
             this.showSearchResults = false;
@@ -83,36 +87,89 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/_colors.style';
+
 .svg-icon {
     max-width: 2rem;
     max-height: 2rem;
 }
 
+#search-bar__header-container {
+    position: relative;
+    background-color: $dark-accent;
+}
+
+#search-bar__placeholder {
+    align-self: center;
+    margin-bottom: 0.8rem;
+    min-height: 2rem;
+    width: 90%;
+
+    @media (min-width: 800px) {
+        width: 60%;
+        max-width: 50rem;
+    }
+}
+
 #seach-bar__container {
+    position: absolute;
+    width: inherit;
+    padding: 0.3rem 0.5rem;
+    top: 0;
+    background-color: $light-dark-accent;
+    border: solid $light-dark-accent 3px;
+    border-radius: 1.5rem;
+}
+
+#search-bar__input-container {
     flex-direction: row;
-    column-gap: 2%;
+    width: 100%;
 }
 
 #search-bar__search-button {
-    max-width: 15%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-right: 0.3rem;
 
-    @media (min-width: 800px) {
-        max-width: 5%;
+    svg {
+        color: $primary-color;
     }
 }
 
 #search-bar__input {
-    width: 60%;
-    height: 2rem;
+    width: 90%;
+    height: 100%;
     align-self: center;
-
-    @media (min-width: 800px) {
-        height: 100%;
-    }
+    background-color: transparent;
+    border: none;
+    color: $light-accent;
 }
 
 .search-bar__results-container {
-    width: 70%;
+    margin-top: 0.2rem;
+    padding-top: 0.2rem;
+    border-top: #999 0.1rem solid;
     align-self: center;
+    width: 100%;
+
+    @media (min-width: 350px) {
+        width: 98%;
+    }
+
+    @media (min-width: 399px) {
+        width: 96%;
+    }
+
+    @media (min-width: 499px) {
+        width: 95%;
+    }
+
+    span {
+        color: $light-accent;
+        &:hover {
+            background-color: $primary-color;
+        }
+    }
 }
 </style>

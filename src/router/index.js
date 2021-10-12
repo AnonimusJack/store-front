@@ -11,7 +11,8 @@ const routes = [
   {
     path: '/:id',
     name: 'ItemPage',
-    component: ItemPage
+    component: ItemPage,
+    props: true
   }
 ]
 

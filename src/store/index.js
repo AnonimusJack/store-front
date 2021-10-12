@@ -6,7 +6,8 @@ export default createStore({
     return {
       items: [],
       searchResult: [],
-      selectedItem: null,
+      selectedItemId: null,
+      selectedItem: { id: 0, title: '', images: [], desc: '', price: '' },
       categories: new Set()
     }
   },
@@ -24,14 +25,23 @@ export default createStore({
     },
     selectItem(state, item) {
       state.selectedItem = item;
+    },
+    selectItemById(state, id) {
+      state.selectedItem = state.items.find(item => item.id === id);
+    },
+    setItemId(state, id) {
+      state.selectedItemId = id;
     }
   },
   actions: {
-    initStore({ commit }) {
+    initStore({ commit, state }) {
       axios.get(process.env.VUE_APP_API_URL)
-      .then(result => commit('initStore', result.data))
+      .then(result => {
+        commit('initStore', result.data);
+        if (state.selectedItemId != null)
+          commit('selectItemById', state.selectedItemId);
+      })
       .catch(error => {
-        console.log(process.env.VUE_APP_API_URL);
         console.error(error);
       })
     },

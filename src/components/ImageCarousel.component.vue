@@ -1,8 +1,10 @@
 <template>
-<div class="image-carousel__container">
+<div class="centered image-carousel__container">
     <img class="image-carousel__image" v-bind:src="currentImage" v-bind:alt="`${ itemName }-Image-${ currentIndex }`">
-    <button class="image-carousel__button" id="right" @click="onPreviousImage">הקודם</button>
-    <button class="image-carousel__button" id="left" @click="onNextImage">הבא</button>
+    <div class="centered" id="image-carousel__buttons">
+        <button class="image-carousel__button" @click="onPreviousImage">הקודם</button>
+        <button class="image-carousel__button" @click="onNextImage">הבא</button>
+    </div>    
 </div>
 </template>
 
@@ -20,7 +22,7 @@ export default {
             const localImage = this.images[this.currentIndex];
             if (localImage != null)
                 return localImage.url;
-            return '';
+            return 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/1276px-Placeholder_view_vector.svg.png';
         }
     },
     methods: {
@@ -38,10 +40,12 @@ export default {
                     break;
             }
         },
-        onNextImage() {
+        onNextImage(e) {
+            e.stopPropagation();
             this.moveImage(1);
         },
-        onPreviousImage() {
+        onPreviousImage(e) {
+            e.stopPropagation();
             this.moveImage(-1);
         }
     }
@@ -49,25 +53,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/_colors.style';
 
+.image-carousel__container {
+    width: 100%;
+}
 .image-carousel__image {
-    max-width: 70%;
-    max-height: 70%;
-
-    @media (min-width: 800px) {
-        max-width: 50%;
-        max-height: 50%;
-    }
+    width: 100%;
+    height: 10rem;
 }
 
 .image-carousel__button {
-    border: solid white 0.2rem;
-    border-radius: 10rem;
-    opacity: 40%;
+    width: 50%;
+    border: solid $dark-accent 0.1rem;
+    color: $light-accent;
+    background-color: $primary-color;
 }
 
-#left {
-    position: relative;
-    left: 0px;
+#image-carousel__buttons {
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 </style>
