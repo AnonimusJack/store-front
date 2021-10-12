@@ -165,6 +165,10 @@ export default {
         width: 95%;
     }
 
+    @media (min-width: 899px) {
+        width: 93%;
+    }
+
     span {
         color: $light-accent;
         &:hover {
